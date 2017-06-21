@@ -97,7 +97,7 @@ func (s postgres) HasForeignKey(tableName string, foreignKeyName string) bool {
 
 func (s postgres) HasTable(tableName string) bool {
 	var count int
-	s.db.QueryRow("SELECT count(*) FROM INFORMATION_SCHEMA.tables WHERE table_name = $1 AND table_type = 'BASE TABLE'", tableName).Scan(&count)
+	s.db.QueryRow("SELECT count(*) FROM INFORMATION_SCHEMA.tables WHERE table_name = $1 AND table_schema = $2", tableName, s.CurrentDatabase()).Scan(&count)
 	return count > 0
 }
 
